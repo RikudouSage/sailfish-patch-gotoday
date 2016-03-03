@@ -18,6 +18,11 @@ Dialog {
         }
     }
 
+    function monthDays(month, year) {
+        var months = [31,year%4 == 0?29:28,31,30,31,30,31,31,30,31,30,31];
+        return months[month-1];
+    }
+
     Column {
         spacing: Theme.paddingLarge
         width: root.width
@@ -33,6 +38,111 @@ Dialog {
             title: "Choose date"
         }
 
+        ComboBox {
+            property var value: input_date.getFullYear()
+            id: yearbox
+            label: "Year"
+            menu: ContextMenu {
+                Repeater {
+                    model: ListModel {
+                        id: lmodel_year
+                        Component.onCompleted: {
+                            var j = 0;
+                            for(var i = 2000; i <= 2100; i++) {
+                                lmodel_year.append({m_text: i});
+                                if(i == input_date.getFullYear()) {
+                                    yearbox.currentIndex = j;
+                                }
+
+                                j++
+                            }
+                        }
+                    }
+                    MenuItem {
+                        text: m_text
+                    }
+                }
+            }
+            onCurrentItemChanged: {
+                yearbox.value = lmodel_year.get(yearbox.currentIndex).m_text;
+                daybox.requestDateReload();
+            }
+        }
+
+        ComboBox {
+            property var value: input_date.getMonth() + 1
+            id: monthbox
+            label: "Month"
+            menu: ContextMenu {
+                Repeater {
+                    model: ListModel {
+                        id: lmodel_month
+                        Component.onCompleted: {
+                            var j = 0;
+                            var name = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                            for(var i = 1; i <= 12; i++) {
+                                lmodel_month.append({m_text: name[j], m_val: i});
+                                if(i == input_date.getMonth()+1) {
+                                    monthbox.currentIndex = j;
+                                }
+
+                                j++
+                            }
+                        }
+                    }
+                    MenuItem {
+                        text: m_text
+                    }
+                }
+            }
+            onCurrentItemChanged: {
+                monthbox.value = lmodel_month.get(monthbox.currentIndex).m_val;
+                daybox.requestDateReload();
+            }
+        }
+
+        ComboBox {
+            property var value: input_date.getDate()
+            signal requestDateReload()
+            id: daybox
+            label: "Day"
+            menu: ContextMenu {
+                Repeater {
+                    model: ListModel {
+                        id: lmodel_day
+                        Component.onCompleted: {
+                            var j = 0;
+                            var days = monthDays(monthbox.value, yearbox.value);
+                            for(var i = 1; i <= days; i++) {
+                                lmodel_day.append({m_text: i});
+                                if(i == input_date.getDate()) {
+                                    daybox.currentIndex = j;
+                                }
+
+                                j++
+                            }
+                        }
+                    }
+                    MenuItem {
+                        text: m_text
+                    }
+                }
+            }
+            onCurrentItemChanged: {
+                daybox.value = lmodel_day.get(daybox.currentIndex).m_text;
+            }
+            onRequestDateReload: {
+                var sel = daybox.currentIndex;
+                lmodel_day.clear();
+                var j = 0;
+                var days = monthDays(monthbox.value, yearbox.value);
+                for(var i = 1; i <= days; i++) {
+                    lmodel_day.append({m_text: i});
+                    j++
+                }
+            }
+        }
+
         TextField {
             id: day
             width: parent.width
@@ -40,6 +150,7 @@ Dialog {
             label: "Day"
             text: getDate().day
             inputMethodHints: Qt.ImhDigitsOnly
+            visible: false
         }
 
         TextField {
@@ -49,6 +160,7 @@ Dialog {
             label: "Month"
             text: getDate().month
             inputMethodHints: Qt.ImhDigitsOnly
+            visible: false
         }
 
         TextField {
@@ -58,13 +170,14 @@ Dialog {
             label: "Year"
             text: getDate().year
             inputMethodHints: Qt.ImhDigitsOnly
+            visible: false
         }
     }
     onDone: {
         if(result == DialogResult.Accepted) {
-            year_r = year.text;
-            month_r = month.text-1;
-            day_r = day.text;
+            year_r = yearbox.value;
+            month_r = monthbox.value-1;
+            day_r = daybox.value;
         }
     }
 }
