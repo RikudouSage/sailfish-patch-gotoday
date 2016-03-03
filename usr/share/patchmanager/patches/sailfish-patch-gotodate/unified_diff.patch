@@ -1,0 +1,25 @@
+--- /usr/share/jolla-calendar/pages/MonthPage.qml	2016-03-01 13:29:09.846045485 +0100
++++ /usr/share/jolla-calendar/pages/MonthPage.qml	2016-03-01 11:37:15.348747499 +0100
+@@ -65,6 +65,17 @@
+                 text: qsTrId("calendar-me-new_event")
+                 onClicked: root.addEvent()
+             }
++
++            MenuItem {
++                text: "Go to date"
++                onClicked: {
++                    var dialog = pageStack.push("ChooseDate.qml",{input_date: datePicker.date});
++                    dialog.accepted.connect(function() {
++                        var d = new Date(dialog.year_r,dialog.month_r,dialog.day_r,0,0,0,0);
++                        datePicker.date = d;
++                    });
++                }
++            }
+         }
+ 
+         header: Item {
+@@ -177,3 +188,4 @@
+     }
+ }
+ 
++

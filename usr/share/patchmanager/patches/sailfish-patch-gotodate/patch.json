@@ -1,0 +1,8 @@
+{
+    "name": "Go to date in calendar",
+    "description": "Allows you to go to specified day in calendar",
+    "category": "calendar",
+	"infos": {
+        "maintainer": "Rikudou_Sennin"
+	}
+}
