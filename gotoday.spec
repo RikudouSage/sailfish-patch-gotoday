@@ -3,7 +3,7 @@
 
 Name: %{name}
 Version: %{version}
-Release: 1
+Release: 2
 Summary: Simple patch that allows you to specify date to go to in calendar
 License: WTFPL
 URL: http://www.chrastecky.cz
@@ -16,6 +16,8 @@ URL: http://www.chrastecky.cz
 Simple patch that allows you to specify date to go to in calendar
 
 %changelog
+* Thu Mar 3 2016 Rikudou_Sennin <dominik@chrastecky.cz> - 0.2-2
+- Translations support
 * Thu Mar 3 2016 Rikudou_Sennin <dominik@chrastecky.cz> - 0.2-1
 - Changed to comboboxes
 * Wed Mar 2 2016 Rikudou_Sennin <dominik@chrastecky.cz> - 0.1-1

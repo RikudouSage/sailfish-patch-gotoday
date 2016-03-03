@@ -1,12 +1,20 @@
 --- /usr/share/jolla-calendar/pages/MonthPage.qml	2016-03-01 13:29:09.846045485 +0100
 +++ /usr/share/jolla-calendar/pages/MonthPage.qml	2016-03-01 11:37:15.348747499 +0100
-@@ -53,6 +53,17 @@
+@@ -3,6 +3,7 @@
+ import org.nemomobile.calendar 1.0
+ import org.nemomobile.time 1.0
+ import "Util.js" as Util
++import "ChooseDateTranslations.js" as Translations
+ 
+ Page {
+     id: root
+@@ -53,6 +54,17 @@
                  text: qsTrId("calendar-me-go_to_today")
                  onClicked: datePicker.date = new Date()
              }
 +
 +            MenuItem {
-+                text: "Go to date"
++                text: Translations.get("Go to date")
 +                onClicked: {
 +                    var dialog = pageStack.push("ChooseDate.qml",{input_date: datePicker.date});
 +                    dialog.accepted.connect(function() {

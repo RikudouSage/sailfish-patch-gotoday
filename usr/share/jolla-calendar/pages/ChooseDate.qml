@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "ChooseDateTranslations.js" as Translation
 
 Dialog {
     id: root
@@ -30,18 +31,18 @@ Dialog {
 
         DialogHeader {
             id: dialogheader
-            acceptText: "Go to date"
-            cancelText: "Cancel"
+            acceptText: Translation.get("Go to date")
+            cancelText: Translation.get("Cancel")
         }
 
         PageHeader {
-            title: "Choose date"
+            title: Translation.get("Choose date")
         }
 
         ComboBox {
             property var value: input_date.getFullYear()
             id: yearbox
-            label: "Year"
+            label: Translation.get("Year")
             menu: ContextMenu {
                 Repeater {
                     model: ListModel {
@@ -72,7 +73,7 @@ Dialog {
         ComboBox {
             property var value: input_date.getMonth() + 1
             id: monthbox
-            label: "Month"
+            label: Translation.get("Month")
             menu: ContextMenu {
                 Repeater {
                     model: ListModel {
@@ -81,7 +82,7 @@ Dialog {
                             var j = 0;
                             var name = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                             for(var i = 1; i <= 12; i++) {
-                                lmodel_month.append({m_text: name[j], m_val: i});
+                                lmodel_month.append({m_text: Translation.get(name[j]), m_val: i});
                                 if(i == input_date.getMonth()+1) {
                                     monthbox.currentIndex = j;
                                 }
@@ -105,7 +106,7 @@ Dialog {
             property var value: input_date.getDate()
             signal requestDateReload()
             id: daybox
-            label: "Day"
+            label: Translation.get("Day")
             menu: ContextMenu {
                 Repeater {
                     model: ListModel {
@@ -146,8 +147,8 @@ Dialog {
         TextField {
             id: day
             width: parent.width
-            placeholderText: "Day"
-            label: "Day"
+            placeholderText: Translation.get("Day")
+            label: Translation.get("Day")
             text: getDate().day
             inputMethodHints: Qt.ImhDigitsOnly
             visible: false
@@ -156,8 +157,8 @@ Dialog {
         TextField {
             id: month
             width: parent.width
-            placeholderText: "Month"
-            label: "Month"
+            placeholderText: Translation.get("Month")
+            label: Translation.get("Month")
             text: getDate().month
             inputMethodHints: Qt.ImhDigitsOnly
             visible: false
@@ -166,8 +167,8 @@ Dialog {
         TextField {
             id: year
             width: parent.width
-            placeholderText: "Year"
-            label: "Year"
+            placeholderText: Translation.get("Year")
+            label: Translation.get("Year")
             text: getDate().year
             inputMethodHints: Qt.ImhDigitsOnly
             visible: false
